@@ -1,39 +1,55 @@
 package dio.springbootweb.controller;
 
-import dio.springbootweb.model.Client;
-import java.util.List;
-import java.util.Optional;
+import static com.mongodb.MongoClientSettings.getDefaultCodecRegistry;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
-import dio.springbootweb.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import static com.mongodb.client.model.Filters.eq;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bson.codecs.configuration.CodecProvider;
+import org.bson.codecs.configuration.CodecRegistry;
+import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
+import dio.springbootweb.model.Client;
 
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
+
+	MongoClient mongoClient = MongoClients.create("mongodb+srv://dbAdmin:vEYK4MowyI3ZN7oG@cluster0.nvzwm3z.mongodb.net/?retryWrites=true&w=majority");
 	
-	@Autowired
-	private ClientRepository clientRepository;
+	CodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build();
+	CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
+	
+	MongoDatabase database = mongoClient.getDatabase("API_data");	
+	MongoCollection<Client> clients = database.getCollection("clients", Client.class).withCodecRegistry(pojoCodecRegistry);
 	
 	@GetMapping
 	public List<Client> list() {
-		return clientRepository.findAll();
+		List<Client> clientsList = new ArrayList<>();
+		System.out.println(clients.find().into(clientsList));
+		return clientsList;
 	}
 	
+		
 	@GetMapping(path = "/{id}")
-	public Optional<Client> listByID(@PathVariable Long id) {
-		return clientRepository.findById(id);
+	public Client listByID(@PathVariable String id) {
+		return clients.find(eq("name", "Ila Burch")).first();
 	}
 	
+	/*
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Client add(@RequestBody Client client) {
@@ -42,7 +58,7 @@ public class ClientController {
 	
 	@PutMapping(path = "/{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public Client put(@RequestBody Client client, @PathVariable Long id) {
+	public Client put(@RequestBody Client client, @PathVariable String id) {
 		return clientRepository.findById(id)
 			      .map(x -> {
 			    	  x.setName(client.getName());
@@ -56,9 +72,10 @@ public class ClientController {
 	
 	@DeleteMapping(path = "/{id}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public String delete(@PathVariable Long id) {
+	public String delete(@PathVariable String id) {
 		clientRepository.deleteById(id);
 		return "Deleted";
 	}
 	
+	*/
 }
