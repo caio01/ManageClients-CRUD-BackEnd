@@ -2,21 +2,19 @@ package dio.springbootweb.model;
 
 import java.util.Objects;
 
-import org.bson.types.ObjectId;
-
 public class Client {
 	
-	private ObjectId _id;
+	private String _id;
 	private String name;
 	private String phone;
 	private String email;
 	private String address;
 	private String country;
 	
-	public ObjectId getId() {
+	public String getId() {
 		return _id;
 	}
-	public void setId(ObjectId _id) {
+	public void setId(String _id) {
 		this._id = _id;
 	}
 	public String getName() {
