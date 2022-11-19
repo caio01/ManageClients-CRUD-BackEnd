@@ -7,6 +7,7 @@ import static com.mongodb.client.model.Filters.eq;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import com.mongodb.client.result.UpdateResult;
 
 import dio.springbootweb.model.Client;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
