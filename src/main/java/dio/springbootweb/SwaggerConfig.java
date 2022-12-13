@@ -21,18 +21,17 @@ public class SwaggerConfig {
         return new Contact(
                 "Caio Oliveira",
                 "http://www.github.com/caio01",
-                "caio@gmail.com");
+                "caioinacio00@gmail.com");
     }
     private ApiInfoBuilder informacoesApi() {
 
         ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
 
         apiInfoBuilder.title("Users - Rest API");
-        apiInfoBuilder.description("API exemplo de uso de Springboot REST API");
+        apiInfoBuilder.description("Manage Clients API - Springboot Rest API");
         apiInfoBuilder.version("1.0");
-        apiInfoBuilder.termsOfServiceUrl("Termo de uso: Open Source");
         apiInfoBuilder.license("Licença - Gratuito para Uso nâo comercial");
-        apiInfoBuilder.licenseUrl("http://www.github.com/caio01");
+        apiInfoBuilder.licenseUrl("https://github.com/caio01/ManageClients-CRUD-BackEnd/blob/main/LICENSE");
         apiInfoBuilder.contact(this.contato());
 
         return apiInfoBuilder;
