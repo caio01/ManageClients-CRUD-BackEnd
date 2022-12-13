@@ -14,8 +14,9 @@ Esse projeto busca colocar em prática os conhecimentos adquiridos nas linguagen
 
 ## Rest API
 Esse projeto também pode ser utilizado como uma Rest API, para integração com outras soluções, uma vez que é dessa forma que se comunica com o FrontEnd da aplicação.
-Para quem desejar utilizá-lo com essa finalidade, abaixo segue uma breve documentação:
+Para quem desejar utilizá-lo com essa finalidade, abaixo segue uma breve documentação desenvolvida com a ajuda do Swagger:
 
+- http://ec2-18-229-123-27.sa-east-1.compute.amazonaws.com:3334/swagger-ui.html#/
 
 
 # Tecnologias utilizadas
