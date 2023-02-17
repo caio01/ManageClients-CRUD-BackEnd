@@ -5,6 +5,8 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.InsertOneResult;
+import dio.springbootweb.exception.ClientNullException;
+import dio.springbootweb.exception.DBException;
 import dio.springbootweb.model.Client;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +34,9 @@ public class ClientService {
     }
 
     public Client add(Client client) {
+        if(client.getName() == null) {
+            throw new ClientNullException();
+        }
         Document doc1 = new Document("name", client.getName())
                 .append("phone", client.getPhone())
                 .append("email", client.getEmail())
@@ -43,6 +48,9 @@ public class ClientService {
     }
 
     public Client put(ObjectId id, Client client) {
+        if(client.getName() == null) {
+            throw new ClientNullException();
+        }
         Document doc1 = new Document("name", client.getName())
                 .append("phone", client.getPhone())
                 .append("email", client.getEmail())
@@ -72,8 +80,12 @@ public class ClientService {
     }
 
     public MongoCollection<Document> getConn() {
-        MongoClient mongoClient = MongoClients.create("mongodb+srv://dbAdmin:vEYK4MowyI3ZN7oG@cluster0.nvzwm3z.mongodb.net/?retryWrites=true&w=majority");
-        MongoDatabase database = mongoClient.getDatabase("API_data");
-         return database.getCollection("clients");
+        try {
+            MongoClient mongoClient = MongoClients.create("mongodb+srv://dbAdmin:vEYK4MowyI3ZN7oG@cluster0.nvzwm3z.mongodb.net/?retryWrites=true&w=majority");
+            MongoDatabase database = mongoClient.getDatabase("API_data");
+            return database.getCollection("clients");
+        } catch (Exception e) {
+            throw new DBException();
+        }
     }
 }
